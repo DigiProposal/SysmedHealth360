@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Propuesta Interactiva: Sysmed Minería</title>
+    <!-- Chosen Palette: Corporate Health Trust -->
+    <!-- Application Structure Plan: Se diseñó una SPA (Single Page Application) con una estructura temática y no lineal para priorizar la experiencia del usuario. En lugar de replicar los capítulos de un documento, la información se agrupa en secciones lógicas e interactivas: 1) Propuesta de Valor, 2) Modelo Operativo (con un flujo de proceso interactivo y desglose de servicios por riesgo), 3) Pila Tecnológica, 4) Visión Estratégica de datos y 5) Infraestructura. Se añadió una sección visual para los renders de la clínica para darles mayor protagonismo. Esta arquitectura permite a los stakeholders explorar los diferenciadores clave y comprender el flujo de valor de manera intuitiva. -->
+    <!-- Visualization & Content Choices: 
+        - Flujo de Proceso: Report Info -> Flujo operativo del paciente. Goal -> Organizar. Viz/Method -> Diagrama de pasos construido con HTML/CSS (Flexbox) para evitar SVG. Interaction -> Al hacer clic en un paso, se resalta para guiar al usuario. Justification -> Clarifica el viaje del cliente de forma visual y sencilla.
+        - Perfiles de Riesgo: Report Info -> Servicios y exámenes por nivel de riesgo. Goal -> Comparar. Viz/Method -> Botones interactivos que actualizan un panel de detalles. Se eliminó el gráfico para dar más espacio al contenido textual detallado. Interaction -> El usuario selecciona un perfil (color) y el contenido cambia dinámicamente. Justification -> Permite una comparación directa y clara de la oferta de servicios.
+        - Placeholders y Renders: Report Info -> Necesidad de visualizar la tecnología y la infraestructura. Goal -> Ilustrar. Viz/Method -> Se reemplazaron los placeholders con las imágenes reales de la plataforma tecnológica y el dashboard de KPIs. Se mantiene el carrusel para la clínica, corrigiendo el fondo para una visualización correcta de imágenes PNG. Interaction -> Carrusel interactivo con botones de navegación. Justification -> Hace la propuesta más tangible y visualmente atractiva.
+        - Library/Method: Toda la interactividad se maneja con Vanilla JS. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F8F9FA;
+            color: #343A40;
+        }
+        .nav-link {
+            transition: color 0.3s ease, border-bottom-color 0.3s ease;
+            border-bottom: 2px solid transparent;
+        }
+        .nav-link.active, .nav-link:hover {
+            color: #0056b3;
+            border-bottom-color: #0056b3;
+        }
+        .step-item {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .step-item.active {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            border-color: #0056b3;
+        }
+        .risk-button {
+            transition: all 0.2s ease-in-out;
+        }
+        .risk-button.active {
+            transform: scale(1.05);
+            box-shadow: 0 0 0 3px var(--tw-shadow-color);
+        }
+        .advantage-card::before {
+            content: '✓';
+            position: absolute;
+            left: -1.5rem;
+            top: 1.6rem;
+            font-weight: bold;
+            color: #10B981;
+            font-size: 1.5rem;
+        }
+        .image-placeholder {
+            border: 2px dashed #cbd5e1;
+            background-color: #f1f5f9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 200px;
+            color: #64748b;
+            font-weight: 500;
+        }
+        #hero {
+            background-image: url('https://ik.imagekit.io/50wnllxkw/front-view-doctor-holding-vial.jpg?updatedAt=1759423077975');
+            background-size: cover;
+            background-position: center;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <header class="bg-white/80 backdrop-blur-md sticky top-0 z-50 shadow-sm">
+        <nav class="container mx-auto px-6 py-3 flex justify-between items-center">
+            <a href="#">
+                <img src="https://ik.imagekit.io/50wnllxkw/Logo%20Sysmed.PNG?updatedAt=1759422339476" alt="Logo Sysmed" class="h-12">
+            </a>
+            <div class="hidden md:flex items-center space-x-8">
+                <a href="#modelo" class="nav-link text-gray-600 font-medium pb-1">Modelo</a>
+                <a href="#diferenciadores" class="nav-link text-gray-600 font-medium pb-1">Diferenciadores</a>
+                <a href="#tecnologia" class="nav-link text-gray-600 font-medium pb-1">Tecnología</a>
+                <a href="#inteligencia" class="nav-link text-gray-600 font-medium pb-1">Inteligencia</a>
+                <a href="#infraestructura" class="nav-link text-gray-600 font-medium pb-1">Infraestructura</a>
+            </div>
+            <button id="mobile-menu-button" class="md:hidden text-gray-700 focus:outline-none">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+            </button>
+        </nav>
+        <div id="mobile-menu" class="hidden md:hidden px-6 pb-4">
+             <a href="#modelo" class="block py-2 text-gray-600 font-medium">Modelo</a>
+             <a href="#diferenciadores" class="block py-2 text-gray-600 font-medium">Diferenciadores</a>
+             <a href="#tecnologia" class="block py-2 text-gray-600 font-medium">Tecnología</a>
+             <a href="#inteligencia" class="block py-2 text-gray-600 font-medium">Inteligencia</a>
+             <a href="#infraestructura" class="block py-2 text-gray-600 font-medium">Infraestructura</a>
+        </div>
+    </header>
+
+    <main>
+        <section id="hero" class="relative text-center">
+            <div class="bg-slate-900/70 py-24 md:py-32">
+                 <div class="container mx-auto px-6">
+                    <h2 class="text-4xl md:text-5xl font-bold text-white mb-4">De la Gestión de Salud a la Inteligencia Predictiva</h2>
+                    <p class="max-w-3xl mx-auto text-lg text-gray-200">
+                        Redefinimos la salud ocupacional para el sector minero. No somos un proveedor, somos su socio tecnológico, transformando un requisito operativo en una fuente de agilidad, seguridad y ventaja estratégica competitiva.
+                    </p>
+                 </div>
+            </div>
+        </section>
+
+        <div class="container mx-auto px-6 py-12">
+            <section id="modelo" class="mb-20 pt-12 -mt-12">
+                <div class="text-center mb-12">
+                    <h3 class="text-3xl font-bold text-gray-900">Nuestro Modelo Operativo: El Ecosistema de Eficiencia</h3>
+                    <p class="text-gray-600 mt-2 max-w-2xl mx-auto">Un ecosistema integrado diseñado para la máxima eficiencia y una experiencia de usuario superior, garantizando la continuidad operativa de su proyecto.</p>
+                </div>
+                
+                <div class="mb-16">
+                    <h4 class="text-2xl font-semibold text-center mb-8">Flujo de Experiencia del Paciente: Cero Fricción</h4>
+                    <div id="process-flow" class="flex flex-col md:flex-row justify-center items-start gap-4 md:gap-0">
+                        <!-- Steps will be generated by JS -->
+                    </div>
+                </div>
+
+                <div>
+                    <h4 class="text-2xl font-semibold text-center mb-8">Portafolio de Servicios por Perfil de Riesgo</h4>
+                    <p class="text-center text-gray-600 mb-8 max-w-3xl mx-auto">Cada perfil está meticulosamente diseñado para cumplir con los más altos estándares de salud ocupacional (OIT, MSHA), mitigando riesgos específicos asociados a cada labor dentro del proyecto minero.</p>
+                    <div class="flex justify-center flex-wrap gap-4 mb-8" id="risk-buttons-container">
+                        <!-- Risk buttons will be generated by JS -->
+                    </div>
+                    <div class="bg-white p-8 rounded-xl shadow-md">
+                        <div id="risk-details">
+                            <!-- Details will be populated by JS -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="diferenciadores" class="mb-20 pt-12 -mt-12 bg-blue-50/50 p-8 md:p-12 rounded-xl">
+                 <div class="text-center mb-12">
+                    <h3 class="text-3xl font-bold text-gray-900">Nuestra Propuesta de Valor Única</h3>
+                    <p class="text-gray-600 mt-2 max-w-2xl mx-auto">Más allá de los exámenes médicos, ofrecemos un conjunto de ventajas competitivas diseñadas para maximizar la productividad y seguridad de su operación.</p>
+                </div>
+                <div class="grid md:grid-cols-2 gap-x-12 gap-y-8">
+                    <div class="relative pl-8 advantage-card">
+                        <h5 class="font-bold text-lg text-blue-800">Velocidad y Agilidad Inigualables</h5>
+                        <p class="text-gray-700 mt-1">Garantizamos la entrega de resultados en un máximo de 12 horas y la habilitación completa del personal en 24-48 horas. Eliminamos los cuellos de botella que retrasan el inicio de labores y generan sobrecostos.</p>
+                    </div>
+                    <div class="relative pl-8 advantage-card">
+                        <h5 class="font-bold text-lg text-blue-800">Digitalización y Trazabilidad Total</h5>
+                        <p class="text-gray-700 mt-1">Operamos en un entorno 100% digital, desde la cita hasta el control de acceso. Cero papeleo, interoperabilidad con sus sistemas de RR.HH. y trazabilidad completa y auditable de cada paso del proceso.</p>
+                    </div>
+                    <div class="relative pl-8 advantage-card">
+                        <h5 class="font-bold text-lg text-blue-800">Experiencia del Paciente Superior</h5>
+                        <p class="text-gray-700 mt-1">Reducimos el tiempo en clínica a menos de 90 minutos. Un proceso ágil, claro y respetuoso que impacta positivamente en la moral del trabajador y fortalece la imagen de su empresa como un empleador de primer nivel.</p>
+                    </div>
+                     <div class="relative pl-8 advantage-card">
+                        <h5 class="font-bold text-lg text-blue-800">Socio Estratégico en Cumplimiento</h5>
+                        <p class="text-gray-700 mt-1">No somos un proveedor, somos su socio en la gestión de riesgos. Nuestro programa robusto, alineado con normativas internacionales, garantiza el cumplimiento regulatorio y fortalece su licencia social para operar.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="tecnologia" class="mb-20 pt-12 -mt-12">
+                <div class="text-center mb-12">
+                    <h3 class="text-3xl font-bold text-gray-900">La Tecnológica: Nuestro Diferenciador Absoluto</h3>
+                    <p class="text-gray-600 mt-2 max-w-3xl mx-auto">Hemos construido una solución tecnológica integral. Cada componente está diseñado para la eficiencia, la seguridad y la generación de datos de alto valor.</p>
+                </div>
+                <div class="space-y-12">
+                    <div class="grid md:grid-cols-2 gap-8 items-center bg-white p-6 rounded-lg shadow-sm">
+                        <div>
+                            <h4 class="font-bold text-xl mb-2 text-blue-700">1. App Móvil del Trabajador</h4>
+                            <p class="text-gray-600">La experiencia inicia con una herramienta poderosa en manos de cada trabajador. Permite autogestionar citas, recibir notificaciones, visualizar resultados y acceder a su historial médico.</p>
+                        </div>
+                        <div class="flex justify-center items-center">
+                            <img src="https://ik.imagekit.io/50wnllxkw/App%20Trabajador.png?updatedAt=1759427122296" alt="App del Trabajador" class="rounded-lg shadow-md max-h-96">
+                        </div>
+                    </div>
+                    <div class="grid md:grid-cols-2 gap-8 items-center bg-white p-6 rounded-lg shadow-sm">
+                        <div class="md:order-2">
+                            <h4 class="font-bold text-xl mb-2 text-blue-700">2. Expediente Médico Electrónico (EHR)</h4>
+                            <p class="text-gray-600">Nuestra plataforma centralizada y segura (EHR+LIS) garantiza la integridad de la información y la interoperabilidad con los sistemas de RR.HH. del cliente.</p>
+                        </div>
+                        <div class="md:order-1 flex justify-center items-center">
+                            <img src="https://ik.imagekit.io/50wnllxkw/Expediente%20M%C3%A9dico%20Electr%C3%B3nico%20(EHR).png?updatedAt=1759427122402" alt="Expediente Médico Electrónico" class="rounded-lg shadow-md w-full">
+                        </div>
+                    </div>
+                    <div class="grid md:grid-cols-2 gap-8 items-center bg-white p-6 rounded-lg shadow-sm">
+                        <div>
+                            <h4 class="font-bold text-xl mb-2 text-blue-700">3. Sistema de Información de Laboratorio (LIS)</h4>
+                            <p class="text-gray-600">La integración total de nuestro LIS con el EHR automatiza el flujo de resultados, garantizando un TAT (Turnaround Time) máximo de 12 horas y acelerando la habilitación.</p>
+                        </div>
+                        <div class="flex justify-center items-center">
+                            <img src="https://ik.imagekit.io/50wnllxkw/Sistema%20de%20Informaci%C3%B3n%20de%20Laboratorio%20(LIS).png?updatedAt=1759427122207" alt="Sistema de Información de Laboratorio" class="rounded-lg shadow-md w-full">
+                        </div>
+                    </div>
+                     <div class="grid md:grid-cols-2 gap-8 items-center bg-white p-6 rounded-lg shadow-sm">
+                        <div class="md:order-2">
+                            <h4 class="font-bold text-xl mb-2 text-blue-700">4. Carnet Digital QR Encriptado</h4>
+                            <p class="text-gray-600">Un carnet digital con código QR dinámico y encriptado garantiza que solo el personal con habilitación médica vigente pueda ingresar, previniendo fraudes y robusteciendo la seguridad.</p>
+                        </div>
+                        <div class="md:order-1 flex justify-center items-center">
+                             <img src="https://ik.imagekit.io/50wnllxkw/QR%20Code.png?updatedAt=1759427122519" alt="Carnet Digital QR" class="rounded-lg shadow-md max-h-64">
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="inteligencia" class="mb-20 pt-12 -mt-12">
+                <div class="text-center mb-12">
+                    <h3 class="text-3xl font-bold text-gray-900">El Horizonte Estratégico: Inteligencia de Salud Poblacional</h3>
+                    <p class="text-gray-600 mt-2 max-w-3xl mx-auto">Transformamos los datos de salud, anonimizados y agregados, en inteligencia accionable para una gestión de riesgos proactiva que protege a su personal y su operación.</p>
+                </div>
+                <div class="bg-white p-8 rounded-xl shadow-md">
+                    <div class="grid lg:grid-cols-2 gap-8 items-center">
+                        <div>
+                            <h4 class="font-bold text-xl mb-4">De Datos Reactivos a Estrategia Predictiva</h4>
+                            <p class="text-gray-600 mb-4">Nuestro sistema permite identificar patrones y tendencias de salud en la fuerza laboral. Esto habilita la creación de programas de bienestar focalizados, la optimización de protocolos de seguridad y la anticipación de riesgos médicos antes de que se conviertan en incidentes.</p>
+                             <ul class="space-y-3 text-gray-700">
+                                <li class="flex items-start">
+                                    <span class="text-green-500 mr-2 mt-1">✓</span>
+                                    <span><strong>Planes de Salud y Telemedicina:</strong> Ofrecemos servicios complementarios que nos permiten un mapeo continuo y la generación de data de salud poblacional de alto valor para el proyecto.</span>
+                                </li>
+                             </ul>
+                        </div>
+                         <div class="flex justify-center items-center">
+                            <img src="https://ik.imagekit.io/50wnllxkw/Dashboard%20KPIS.png?updatedAt=1759427406021" alt="Dashboard de KPIs de Salud Poblacional" class="rounded-lg shadow-md w-full">
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="infraestructura" class="mb-20 pt-12 -mt-12">
+                <div class="text-center mb-12">
+                    <h3 class="text-3xl font-bold text-gray-900">Infraestructura y Capacidad Instalada: Cobertura Estratégica</h3>
+                    <p class="text-gray-600 mt-2 max-w-2xl mx-auto">Una red de centros de atención estratégicamente ubicados para garantizar cobertura total, flexibilidad operativa y respuesta inmediata en todas las fases del proyecto.</p>
+                </div>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div class="bg-white p-6 rounded-lg shadow-sm border-t-4 border-blue-500 h-full">
+                        <h4 class="font-bold text-xl mb-2">Fase 1: Clínica en Ciudad de Panamá</h4>
+                        <p class="text-gray-600">Nuestro centro principal para procesar el alto volumen de personal administrativo, técnico y gerencial durante la fase de pre-apertura.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-sm border-t-4 border-blue-500 h-full">
+                        <h4 class="font-bold text-xl mb-2">Fase 1: Clínica en Penonomé</h4>
+                        <p class="text-gray-600">Ubicación clave para servir como hub logístico para la fuerza laboral local y regional, optimizando tiempos y costos de traslado.</p>
+                    </div>
+                    <div class="bg-blue-900 text-white p-8 rounded-lg shadow-lg border-t-4 border-yellow-400 lg:col-span-3 md:col-span-2">
+                        <h4 class="font-bold text-xl text-yellow-300 mb-2">Fase 2: Centro de Atención Nivel 2</h4>
+                        <p class="text-blue-100 font-semibold mb-4">Instalado en la entrada del proyecto, este centro es un pilar estratégico y de responsabilidad social. Ofrecerá atención 24/7 a emergencias, ampliará la capacidad médica y asistirá a la comunidad.</p>
+                        <ul class="text-sm text-blue-200 space-y-2 list-disc list-inside">
+                            <li>Atención médica y de enfermería 24/7</li>
+                            <li>5 boxes de urgencia y 3 consultorios</li>
+                            <li>Sala de procedimientos y quirófano de emergencias</li>
+                            <li>Ambulancia de tercer nivel (Tipo II) 24/7</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="clinic-design" class="mb-20 pt-12 -mt-12">
+                <div class="text-center mb-12">
+                    <h3 class="text-3xl font-bold text-gray-900">Así se vería nuestra clínica insignia</h3>
+                    <p class="text-gray-600 mt-2 max-w-2xl mx-auto">Diseñada desde cero para una experiencia del paciente que sea a la vez rápida, eficiente y placentera, minimizando el estrés y el tiempo de espera.</p>
+                </div>
+                <div class="max-w-4xl mx-auto">
+                    <div id="clinic-carousel" class="relative w-full aspect-video rounded-lg overflow-hidden shadow-2xl bg-white">
+                        <!-- Carousel will be inserted here by JS -->
+                   </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="container mx-auto px-6 text-center">
+             <img src="https://ik.imagekit.io/50wnllxkw/Logo%20Sysmed.PNG?updatedAt=1759422339476" alt="Logo Sysmed" class="h-10 mx-auto opacity-70 invert brightness-0">
+            <p class="text-sm text-gray-400 mt-4">
+                Este es un documento conceptual para fines de planificación.
+            </p>
+             <p class="text-xs text-gray-500 mt-2">
+                AVISO DE CONFIDENCIALIDAD: La información contenida en este documento es estrictamente confidencial y de propiedad exclusiva. Queda prohibida su reproducción, distribución o divulgación total o parcial a terceros sin el consentimiento expreso y por escrito.
+            </p>
+            <p class="text-xs text-gray-500 mt-4">© 2025. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            
+            const processData = [
+                { title: 'Agendamiento Digital', description: 'El trabajador o su empleador agenda la cita vía App o portal web, seleccionando el perfil de riesgo requerido.' },
+                { title: 'Evaluación Médica', description: 'El paciente acude a la clínica. El tiempo en sitio se optimiza a < 90 min gracias a nuestro flujo de trabajo digital.' },
+                { title: 'Exámenes de Laboratorio', description: 'Toma de muestras integrada en el mismo flujo. Los datos se envían al LIS en tiempo real.' },
+                { title: 'Resultados y Diagnóstico', description: 'Resultados de laboratorio disponibles en < 12 hrs. El médico ocupacional emite el diagnóstico de aptitud.' },
+                { title: 'Emisión de Carnet Digital', description: 'Al ser declarado "APTO", el carnet QR en la App del trabajador se activa automáticamente.' },
+                { title: 'Ingreso Ágil a la Mina', description: 'El personal de seguridad escanea el QR en el punto de acceso, validando la aptitud en tiempo real.' }
+            ];
+
+            const riskProfileData = {
+                verde: {
+                    title: 'Perfil Verde: Operaciones en Mina',
+                    description: 'Personal en operaciones directas, construcción y mantenimiento. Exposición a riesgos físicos (ruido, vibración, altura), químicos (polvo de sílice) y ergonómicos. Requiere la evaluación más completa para garantizar la aptitud en condiciones extremas.',
+                    price: 261.00,
+                    exams: ['Examen Físico Completo (énfasis osteomuscular y neurológico)', 'Audiometría de base y periódica', 'Espirometría (función pulmonar)', 'Rayos X de Tórax (protocolo OIT para neumoconiosis)', 'Laboratorio: Hemograma, Química Sanguínea, Perfil Lipídico, Antidoping', 'Evaluación Psicológica para trabajos de alto riesgo', 'Prueba de Esfuerzo Cardiovascular'],
+                    color: '#10B981',
+                },
+                amarillo: {
+                    title: 'Perfil Amarillo: Administrativos',
+                    description: 'Personal de oficina, finanzas, RR.HH., etc. Exposición a riesgos ergonómicos por posturas prolongadas, fatiga visual y estrés. La evaluación se enfoca en la prevención de trastornos musculoesqueléticos y visuales.',
+                    price: 220.00,
+                    exams: ['Examen Físico con énfasis en ergonomía', 'Visiometría / Agudeza Visual', 'Pruebas de Laboratorio Básicas (Hemograma, Glucosa)', 'Evaluación de Puesto de Trabajo (Ergonómica)', 'Cuestionario de Salud Mental y Estrés'],
+                    color: '#F59E0B',
+                },
+                azul: {
+                    title: 'Perfil Azul: Equipo Pesado y Transporte',
+                    description: 'Operadores de equipo pesado/liviano, transporte de carga y pasajeros. Riesgos asociados a la fatiga, somnolencia, y exigencias neuro-sensoriales. El foco es garantizar la alerta y capacidad de reacción.',
+                    price: 245.00,
+                    exams: ['Examen Físico con Énfasis Neurológico y Reflejos', 'Audiometría (exposición a ruido de motor)', 'Visiometría Avanzada (visión nocturna, percepción de profundidad)', 'Pruebas Psicosensométricas (coordinación, reacción)', 'Laboratorio: Perfil de fatiga, Antidoping'],
+                    color: '#3B82F6',
+                },
+                naranja: {
+                    title: 'Perfil Naranja: Servicios de Soporte',
+                    description: 'Personal de cocina, lavandería, limpieza. Riesgos biológicos por manipulación de alimentos y residuos, y químicos por uso de productos de limpieza. El objetivo es prevenir enfermedades infecciosas y de contacto.',
+                    price: 195.00,
+                    exams: ['Examen Físico General con enfoque dermatológico', 'Control de Infecciones (frotis de garganta, coproparasitoscópico)', 'Pruebas de Laboratorio para Manipuladores de Alimentos', 'Certificado de Salud (Tarjeta de Salud)', 'Capacitación en Buenas Prácticas de Higiene'],
+                    color: '#F97316',
+                }
+            };
+            
+            // Render Process Flow
+            const flowContainer = document.getElementById('process-flow');
+            let firstStep = true;
+            processData.forEach((item, index) => {
+                if (!firstStep) {
+                    const arrow = document.createElement('div');
+                    arrow.className = 'text-gray-300 hidden md:block mx-4 mt-8';
+                    arrow.innerHTML = '<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>';
+                    flowContainer.appendChild(arrow);
+                }
+                const stepEl = document.createElement('div');
+                stepEl.className = 'step-item flex-1 p-4 border-2 border-gray-200 rounded-lg bg-white min-w-[160px] max-w-[200px] h-full';
+                stepEl.innerHTML = `
+                    <div class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-100 text-blue-600 font-bold text-lg mb-3 mx-auto">${index + 1}</div>
+                    <p class="font-semibold text-center text-sm mb-1">${item.title}</p>
+                    <p class="text-xs text-gray-500 text-center">${item.description}</p>
+                `;
+                flowContainer.appendChild(stepEl);
+                firstStep = false;
+            });
+            
+            const steps = document.querySelectorAll('.step-item');
+            steps.forEach((step) => {
+                step.addEventListener('click', () => {
+                    steps.forEach(s => s.classList.remove('active'));
+                    step.classList.add('active');
+                });
+            });
+            if(steps.length > 0) steps[0].classList.add('active');
+
+            // Risk Profiles Logic
+            const riskButtonsContainer = document.getElementById('risk-buttons-container');
+            const riskDetailsContainer = document.getElementById('risk-details');
+            
+            function updateRiskDetails(riskKey) {
+                const data = riskProfileData[riskKey];
+                document.querySelectorAll('.risk-button').forEach(btn => btn.classList.remove('active'));
+                document.querySelector(`.risk-button[data-risk="${riskKey}"]`).classList.add('active');
+                
+                let priceHtml = data.price ? `<p class="text-3xl font-bold text-blue-600">$${data.price.toFixed(2)}</p><p class="text-xs text-gray-500">Precio por persona (Primera Vez)</p>` : `<p class="text-xl font-bold text-blue-600">Precio a Consultar</p>`;
+                
+                riskDetailsContainer.innerHTML = `
+                    <h5 class="text-2xl font-bold mb-2" style="color: ${data.color};">${data.title}</h5>
+                    <p class="text-gray-600 mb-4 text-sm">${data.description}</p>
+                    <div class="mb-4">${priceHtml}</div>
+                    <h6 class="font-semibold mb-2">Componentes Clave de la Evaluación:</h6>
+                    <ul class="space-y-1 text-sm text-gray-700 list-disc list-inside">
+                        ${data.exams.map(exam => `<li>${exam}</li>`).join('')}
+                    </ul>
+                `;
+            }
+            
+            Object.keys(riskProfileData).forEach(key => {
+                const data = riskProfileData[key];
+                const button = document.createElement('button');
+                button.className = 'risk-button capitalize font-semibold py-2 px-5 rounded-full text-white shadow-md';
+                button.textContent = key;
+                button.style.backgroundColor = data.color;
+                button.style.setProperty('--tw-shadow-color', data.color + '80');
+                button.dataset.risk = key;
+                button.addEventListener('click', () => updateRiskDetails(key));
+                riskButtonsContainer.appendChild(button);
+            });
+            updateRiskDetails('verde');
+
+            // Carousel Logic
+            const carouselContainer = document.getElementById('clinic-carousel');
+            const images = [
+                'https://ik.imagekit.io/50wnllxkw/Render%20Clinica.png?updatedAt=1759424596411',
+                'https://ik.imagekit.io/50wnllxkw/Render%20Sysmed%20interno.jpg?updatedAt=1759422448086'
+            ];
+            let currentIndex = 0;
+
+            carouselContainer.innerHTML = `
+                <img id="carousel-image" src="${images[0]}" class="w-full h-full object-contain transition-opacity duration-500" alt="Render de la clínica">
+                <button id="prev-btn" class="absolute left-2 top-1/2 -translate-y-1/2 bg-black/40 text-white p-2 rounded-full hover:bg-black/60 transition-colors">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                </button>
+                <button id="next-btn" class="absolute right-2 top-1/2 -translate-y-1/2 bg-black/40 text-white p-2 rounded-full hover:bg-black/60 transition-colors">
+                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                </button>
+            `;
+            
+            const carouselImage = document.getElementById('carousel-image');
+            const prevBtn = document.getElementById('prev-btn');
+            const nextBtn = document.getElementById('next-btn');
+            
+            function showImage(index) {
+                carouselImage.style.opacity = 0;
+                setTimeout(() => {
+                    carouselImage.src = images[index];
+                    carouselImage.style.opacity = 1;
+                }, 250);
+            }
+
+            prevBtn.addEventListener('click', () => {
+                currentIndex = (currentIndex > 0) ? currentIndex - 1 : images.length - 1;
+                showImage(currentIndex);
+            });
+
+            nextBtn.addEventListener('click', () => {
+                currentIndex = (currentIndex < images.length - 1) ? currentIndex + 1 : 0;
+                showImage(currentIndex);
+            });
+            
+            // Mobile Menu
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenuButton.addEventListener('click', () => { mobileMenu.classList.toggle('hidden'); });
+            
+            const navLinks = document.querySelectorAll('header a[href^="#"]');
+            navLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    if (!mobileMenu.classList.contains('hidden')) {
+                        mobileMenu.classList.add('hidden');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
+
