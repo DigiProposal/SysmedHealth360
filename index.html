@@ -5,11 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Propuesta Interactiva: Sysmed Minería</title>
     <!-- Chosen Palette: Corporate Health Trust -->
-    <!-- Application Structure Plan: Se diseñó una SPA (Single Page Application) con una estructura temática y no lineal para priorizar la experiencia del usuario. En lugar de replicar los capítulos de un documento, la información se agrupa en secciones lógicas e interactivas: 1) Propuesta de Valor, 2) Modelo Operativo (con un flujo de proceso interactivo y desglose de servicios por riesgo), 3) Pila Tecnológica, 4) Visión Estratégica de datos y 5) Infraestructura. Se añadió una sección visual para los renders de la clínica para darles mayor protagonismo. Esta arquitectura permite a los stakeholders explorar los diferenciadores clave y comprender el flujo de valor de manera intuitiva. -->
+    <!-- Application Structure Plan: Se diseñó una SPA (Single Page Application) con una estructura temática y no lineal para priorizar la experiencia del usuario. En lugar de replicar los capítulos de un documento, la información se agrupa en secciones lógicas e interactivas: 1) Propuesta de Valor, 2) Modelo Operativo (con un flujo de proceso interactivo y desglose de servicios por riesgo), 3) Pila Tecnológica, 4) Visión Estratégica de datos, 5) Infraestructura y Capacidad Operativa. Se añadió una sección visual para los renders de la clínica para darles mayor protagonismo. Esta arquitectura permite a los stakeholders explorar los diferenciadores clave y comprender el flujo de valor de manera intuitiva. -->
     <!-- Visualization & Content Choices: 
         - Flujo de Proceso: Report Info -> Flujo operativo del paciente. Goal -> Organizar. Viz/Method -> Diagrama de pasos construido con HTML/CSS (Flexbox) para evitar SVG. Interaction -> Al hacer clic en un paso, se resalta para guiar al usuario. Justification -> Clarifica el viaje del cliente de forma visual y sencilla.
         - Perfiles de Riesgo: Report Info -> Servicios y exámenes por nivel de riesgo. Goal -> Comparar. Viz/Method -> Botones interactivos que actualizan un panel de detalles. Se eliminó el gráfico para dar más espacio al contenido textual detallado. Interaction -> El usuario selecciona un perfil (color) y el contenido cambia dinámicamente. Justification -> Permite una comparación directa y clara de la oferta de servicios.
-        - Placeholders y Renders: Report Info -> Necesidad de visualizar la tecnología y la infraestructura. Goal -> Ilustrar. Viz/Method -> Se reemplazaron los placeholders con las imágenes reales de la plataforma tecnológica y el dashboard de KPIs. Se mantiene el carrusel para la clínica, corrigiendo el fondo para una visualización correcta de imágenes PNG. Interaction -> Carrusel interactivo con botones de navegación. Justification -> Hace la propuesta más tangible y visualmente atractiva.
+        - Capacidad Operativa: Report Info -> Fases de capacidad del proyecto. Goal -> Organizar/Informar. Viz/Method -> Tarjetas informativas en un layout de rejilla (grid), cada una representando una fase. Justification -> Presenta la escalabilidad del modelo de negocio de forma clara y visualmente segmentada.
+        - Placeholders y Renders: Report Info -> Necesidad de visualizar la tecnología y la infraestructura. Goal -> Ilustrar. Viz/Method -> Se reemplazaron los placeholders con las imágenes reales de la plataforma tecnológica y el dashboard de KPIs. Se mantiene el carrusel para la clínica. Interaction -> Carrusel interactivo con botones de navegación. Justification -> Hace la propuesta más tangible y visualmente atractiva.
         - Library/Method: Toda la interactividad se maneja con Vanilla JS. -->
     <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -81,10 +82,10 @@
             </a>
             <div class="hidden md:flex items-center space-x-8">
                 <a href="#modelo" class="nav-link text-gray-600 font-medium pb-1">Modelo</a>
-                <a href="#diferenciadores" class="nav-link text-gray-600 font-medium pb-1">Diferenciadores</a>
                 <a href="#tecnologia" class="nav-link text-gray-600 font-medium pb-1">Tecnología</a>
                 <a href="#inteligencia" class="nav-link text-gray-600 font-medium pb-1">Inteligencia</a>
                 <a href="#infraestructura" class="nav-link text-gray-600 font-medium pb-1">Infraestructura</a>
+                <a href="#capacidad" class="nav-link text-gray-600 font-medium pb-1">Capacidad</a>
             </div>
             <button id="mobile-menu-button" class="md:hidden text-gray-700 focus:outline-none">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
@@ -92,10 +93,10 @@
         </nav>
         <div id="mobile-menu" class="hidden md:hidden px-6 pb-4">
              <a href="#modelo" class="block py-2 text-gray-600 font-medium">Modelo</a>
-             <a href="#diferenciadores" class="block py-2 text-gray-600 font-medium">Diferenciadores</a>
              <a href="#tecnologia" class="block py-2 text-gray-600 font-medium">Tecnología</a>
              <a href="#inteligencia" class="block py-2 text-gray-600 font-medium">Inteligencia</a>
              <a href="#infraestructura" class="block py-2 text-gray-600 font-medium">Infraestructura</a>
+             <a href="#capacidad" class="block py-2 text-gray-600 font-medium">Capacidad</a>
         </div>
     </header>
 
@@ -260,6 +261,42 @@
                 </div>
             </section>
             
+            <section id="capacidad" class="mb-20 pt-12 -mt-12">
+                <div class="text-center mb-12">
+                    <h3 class="text-3xl font-bold text-gray-900">Capacidad Operativa por Fases</h3>
+                    <p class="text-gray-600 mt-2 max-w-2xl mx-auto">Nuestro modelo operativo está diseñado para ser elástico, adaptándose a las diferentes fases de su proyecto, desde el arranque masivo hasta la operación estable.</p>
+                </div>
+                <div class="grid md:grid-cols-3 gap-8 text-center">
+                    <div class="bg-white p-8 rounded-lg shadow-md border-b-4 border-red-500">
+                        <div class="mb-4">
+                             <span class="text-5xl font-bold text-red-500">1</span>
+                        </div>
+                        <h4 class="text-xl font-bold text-gray-800 mb-2">Etapa de Arranque</h4>
+                        <p class="font-semibold text-gray-500 text-sm mb-3">(Días 0-60)</p>
+                        <p class="text-3xl font-bold text-gray-900 mb-3">300 <span class="text-lg font-medium">pacientes/día</span></p>
+                        <p class="text-gray-600 text-sm">Máxima capacidad para absorber la demanda inicial masiva y acelerar la habilitación de la fuerza laboral.</p>
+                    </div>
+                     <div class="bg-white p-8 rounded-lg shadow-md border-b-4 border-yellow-500">
+                        <div class="mb-4">
+                             <span class="text-5xl font-bold text-yellow-500">2</span>
+                        </div>
+                        <h4 class="text-xl font-bold text-gray-800 mb-2">Etapa de Transición</h4>
+                        <p class="font-semibold text-gray-500 text-sm mb-3">(Días 61-90)</p>
+                        <p class="text-3xl font-bold text-gray-900 mb-3">150 <span class="text-lg font-medium">pacientes/día</span></p>
+                        <p class="text-gray-600 text-sm">Ajuste de capacidad para consolidar y optimizar flujos de trabajo en un entorno de alta demanda pero más predecible.</p>
+                    </div>
+                     <div class="bg-white p-8 rounded-lg shadow-md border-b-4 border-green-500">
+                        <div class="mb-4">
+                             <span class="text-5xl font-bold text-green-500">3</span>
+                        </div>
+                        <h4 class="text-xl font-bold text-gray-800 mb-2">Operación Estable</h4>
+                        <p class="font-semibold text-gray-500 text-sm mb-3">(Día 91+)</p>
+                        <p class="text-3xl font-bold text-gray-900 mb-3">35 <span class="text-lg font-medium">pacientes/día</span></p>
+                        <p class="text-gray-600 text-sm">Operación sostenible a largo plazo para cubrir nuevas contrataciones, renovaciones y la evaluación de visitantes.</p>
+                    </div>
+                </div>
+            </section>
+
             <section id="clinic-design" class="mb-20 pt-12 -mt-12">
                 <div class="text-center mb-12">
                     <h3 class="text-3xl font-bold text-gray-900">Así se vería nuestra clínica insignia</h3>
