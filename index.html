@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Propuesta Interactiva: Sysmed Minería</title>
     <!-- Chosen Palette: Corporate Health Trust -->
-    <!-- Application Structure Plan: Se diseñó una SPA (Single Page Application) con una estructura temática y no lineal para priorizar la experiencia del usuario. En lugar de replicar los capítulos de un documento, la información se agrupa en secciones lógicas e interactivas: 1) Propuesta de Valor, 2) Modelo Operativo (con un flujo de proceso interactivo y desglose de servicios por riesgo), 3) Pila Tecnológica, 4) Visión Estratégica de datos, 5) Infraestructura y Capacidad Operativa. Se añadió una sección visual para los renders de la clínica para darles mayor protagonismo. Esta arquitectura permite a los stakeholders explorar los diferenciadores clave y comprender el flujo de valor de manera intuitiva. -->
+    <!-- Application Structure Plan: Se diseñó una SPA (Single Page Application) con una estructura temática y no lineal para priorizar la experiencia del usuario. En lugar de replicar los capítulos de un documento, la información se agrupa en secciones lógicas e interactivas: 1) Modelo Operativo (Flujo, Tecnología e Inteligencia de Datos), 2) Propuesta de Valor, 3) Infraestructura y Capacidad, y 4) Portafolio de Servicios. Esta arquitectura permite a los stakeholders seguir una narrativa lógica desde el "cómo" hasta el "qué". -->
     <!-- Visualization & Content Choices: 
         - Flujo de Proceso: Report Info -> Flujo operativo del paciente. Goal -> Organizar. Viz/Method -> Diagrama de pasos construido con HTML/CSS (Flexbox) para evitar SVG. Interaction -> Al hacer clic en un paso, se resalta para guiar al usuario. Justification -> Clarifica el viaje del cliente de forma visual y sencilla.
         - Perfiles de Riesgo: Report Info -> Servicios y exámenes por nivel de riesgo. Goal -> Comparar. Viz/Method -> Botones interactivos que actualizan un panel de detalles. Se eliminó el gráfico para dar más espacio al contenido textual detallado. Interaction -> El usuario selecciona un perfil (color) y el contenido cambia dinámicamente. Justification -> Permite una comparación directa y clara de la oferta de servicios.
@@ -56,16 +56,6 @@
             color: #10B981;
             font-size: 1.5rem;
         }
-        .image-placeholder {
-            border: 2px dashed #cbd5e1;
-            background-color: #f1f5f9;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 200px;
-            color: #64748b;
-            font-weight: 500;
-        }
         #hero {
             background-image: url('https://ik.imagekit.io/50wnllxkw/front-view-doctor-holding-vial.jpg?updatedAt=1759423077975');
             background-size: cover;
@@ -82,10 +72,10 @@
             </a>
             <div class="hidden md:flex items-center space-x-8">
                 <a href="#modelo" class="nav-link text-gray-600 font-medium pb-1">Modelo</a>
-                <a href="#tecnologia" class="nav-link text-gray-600 font-medium pb-1">Tecnología</a>
-                <a href="#inteligencia" class="nav-link text-gray-600 font-medium pb-1">Inteligencia</a>
+                <a href="#diferenciadores" class="nav-link text-gray-600 font-medium pb-1">Propuesta de Valor</a>
                 <a href="#infraestructura" class="nav-link text-gray-600 font-medium pb-1">Infraestructura</a>
                 <a href="#capacidad" class="nav-link text-gray-600 font-medium pb-1">Capacidad</a>
+                <a href="#portafolio" class="nav-link text-gray-600 font-medium pb-1">Servicios</a>
             </div>
             <button id="mobile-menu-button" class="md:hidden text-gray-700 focus:outline-none">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
@@ -93,10 +83,10 @@
         </nav>
         <div id="mobile-menu" class="hidden md:hidden px-6 pb-4">
              <a href="#modelo" class="block py-2 text-gray-600 font-medium">Modelo</a>
-             <a href="#tecnologia" class="block py-2 text-gray-600 font-medium">Tecnología</a>
-             <a href="#inteligencia" class="block py-2 text-gray-600 font-medium">Inteligencia</a>
+             <a href="#diferenciadores" class="block py-2 text-gray-600 font-medium">Propuesta de Valor</a>
              <a href="#infraestructura" class="block py-2 text-gray-600 font-medium">Infraestructura</a>
              <a href="#capacidad" class="block py-2 text-gray-600 font-medium">Capacidad</a>
+             <a href="#portafolio" class="block py-2 text-gray-600 font-medium">Servicios</a>
         </div>
     </header>
 
@@ -123,44 +113,6 @@
                     <h4 class="text-2xl font-semibold text-center mb-8">Flujo de Experiencia del Paciente: Cero Fricción</h4>
                     <div id="process-flow" class="flex flex-col md:flex-row justify-center items-start gap-4 md:gap-0">
                         <!-- Steps will be generated by JS -->
-                    </div>
-                </div>
-
-                <div>
-                    <h4 class="text-2xl font-semibold text-center mb-8">Portafolio de Servicios por Perfil de Riesgo</h4>
-                    <p class="text-center text-gray-600 mb-8 max-w-3xl mx-auto">Cada perfil está meticulosamente diseñado para cumplir con los más altos estándares de salud ocupacional (OIT, MSHA), mitigando riesgos específicos asociados a cada labor dentro del proyecto minero.</p>
-                    <div class="flex justify-center flex-wrap gap-4 mb-8" id="risk-buttons-container">
-                        <!-- Risk buttons will be generated by JS -->
-                    </div>
-                    <div class="bg-white p-8 rounded-xl shadow-md">
-                        <div id="risk-details">
-                            <!-- Details will be populated by JS -->
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section id="diferenciadores" class="mb-20 pt-12 -mt-12 bg-blue-50/50 p-8 md:p-12 rounded-xl">
-                 <div class="text-center mb-12">
-                    <h3 class="text-3xl font-bold text-gray-900">Nuestra Propuesta de Valor Única</h3>
-                    <p class="text-gray-600 mt-2 max-w-2xl mx-auto">Más allá de los exámenes médicos, ofrecemos un conjunto de ventajas competitivas diseñadas para maximizar la productividad y seguridad de su operación.</p>
-                </div>
-                <div class="grid md:grid-cols-2 gap-x-12 gap-y-8">
-                    <div class="relative pl-8 advantage-card">
-                        <h5 class="font-bold text-lg text-blue-800">Velocidad y Agilidad Inigualables</h5>
-                        <p class="text-gray-700 mt-1">Garantizamos la entrega de resultados (TAT) en 24 horas para casos estándar y una respuesta prioritaria de 12 horas para personal crítico. Esta agilidad elimina los cuellos de botella que retrasan el inicio de labores y generan sobrecostos.</p>
-                    </div>
-                    <div class="relative pl-8 advantage-card">
-                        <h5 class="font-bold text-lg text-blue-800">Digitalización y Trazabilidad Total</h5>
-                        <p class="text-gray-700 mt-1">Operamos en un entorno 100% digital, desde la cita hasta el control de acceso. Cero papeleo, interoperabilidad con sus sistemas de RR.HH. y trazabilidad completa y auditable de cada paso del proceso.</p>
-                    </div>
-                    <div class="relative pl-8 advantage-card">
-                        <h5 class="font-bold text-lg text-blue-800">Experiencia del Paciente Superior</h5>
-                        <p class="text-gray-700 mt-1">Reducimos el tiempo en clínica a menos de 90 minutos. Un proceso ágil, claro y respetuoso que impacta positivamente en la moral del trabajador y fortalece la imagen de su empresa como un empleador de primer nivel.</p>
-                    </div>
-                     <div class="relative pl-8 advantage-card">
-                        <h5 class="font-bold text-lg text-blue-800">Socio Estratégico en Cumplimiento</h5>
-                        <p class="text-gray-700 mt-1">No somos un proveedor, somos su socio en la gestión de riesgos. Nuestro programa robusto, alineado con normativas internacionales, garantiza el cumplimiento regulatorio y fortalece su licencia social para operar.</p>
                     </div>
                 </div>
             </section>
@@ -230,6 +182,31 @@
                          <div class="flex justify-center items-center">
                             <img src="https://ik.imagekit.io/50wnllxkw/Dashboard%20KPIS.png?updatedAt=1759427406021" alt="Dashboard de KPIs de Salud Poblacional" class="rounded-lg shadow-md w-full">
                         </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="diferenciadores" class="mb-20 pt-12 -mt-12 bg-blue-50/50 p-8 md:p-12 rounded-xl">
+                 <div class="text-center mb-12">
+                    <h3 class="text-3xl font-bold text-gray-900">Nuestra Propuesta de Valor Única</h3>
+                    <p class="text-gray-600 mt-2 max-w-2xl mx-auto">Más allá de los exámenes médicos, ofrecemos un conjunto de ventajas competitivas diseñadas para maximizar la productividad y seguridad de su operación.</p>
+                </div>
+                <div class="grid md:grid-cols-2 gap-x-12 gap-y-8">
+                    <div class="relative pl-8 advantage-card">
+                        <h5 class="font-bold text-lg text-blue-800">Velocidad y Agilidad Inigualables</h5>
+                        <p class="text-gray-700 mt-1">Garantizamos la entrega de resultados (TAT) en 24 horas para casos estándar y una respuesta prioritaria de 12 horas para personal crítico. Esta agilidad elimina los cuellos de botella que retrasan el inicio de labores y generan sobrecostos.</p>
+                    </div>
+                    <div class="relative pl-8 advantage-card">
+                        <h5 class="font-bold text-lg text-blue-800">Digitalización y Trazabilidad Total</h5>
+                        <p class="text-gray-700 mt-1">Operamos en un entorno 100% digital, desde la cita hasta el control de acceso. Cero papeleo, interoperabilidad con sus sistemas de RR.HH. y trazabilidad completa y auditable de cada paso del proceso.</p>
+                    </div>
+                    <div class="relative pl-8 advantage-card">
+                        <h5 class="font-bold text-lg text-blue-800">Experiencia del Paciente Superior</h5>
+                        <p class="text-gray-700 mt-1">Reducimos el tiempo en clínica a menos de 90 minutos. Un proceso ágil, claro y respetuoso que impacta positivamente en la moral del trabajador y fortalece la imagen de su empresa como un empleador de primer nivel.</p>
+                    </div>
+                     <div class="relative pl-8 advantage-card">
+                        <h5 class="font-bold text-lg text-blue-800">Socio Estratégico en Cumplimiento</h5>
+                        <p class="text-gray-700 mt-1">No somos un proveedor, somos su socio en la gestión de riesgos. Nuestro programa robusto, alineado con normativas internacionales, garantiza el cumplimiento regulatorio y fortalece su licencia social para operar.</p>
                     </div>
                 </div>
             </section>
@@ -306,6 +283,21 @@
                     <div id="clinic-carousel" class="relative w-full aspect-video rounded-lg overflow-hidden shadow-2xl bg-white">
                         <!-- Carousel will be inserted here by JS -->
                    </div>
+                </div>
+            </section>
+            
+            <section id="portafolio" class="mb-20 pt-12 -mt-12">
+                <div class="text-center mb-12">
+                    <h3 class="text-3xl font-bold text-gray-900">Portafolio de Servicios por Perfil de Riesgo</h3>
+                    <p class="text-gray-600 mt-2 max-w-3xl mx-auto">Cada perfil está meticulosamente diseñado para cumplir con los más altos estándares de salud ocupacional (OIT, MSHA), mitigando riesgos específicos asociados a cada labor dentro del proyecto minero.</p>
+                </div>
+                <div class="flex justify-center flex-wrap gap-4 mb-8" id="risk-buttons-container-2">
+                    <!-- Risk buttons will be generated by JS -->
+                </div>
+                <div class="bg-white p-8 rounded-xl shadow-md">
+                    <div id="risk-details-2">
+                        <!-- Details will be populated by JS -->
+                    </div>
                 </div>
             </section>
         </div>
@@ -397,40 +389,50 @@
             });
             if(steps.length > 0) steps[0].classList.add('active');
 
-            // Risk Profiles Logic
-            const riskButtonsContainer = document.getElementById('risk-buttons-container');
-            const riskDetailsContainer = document.getElementById('risk-details');
-            
-            function updateRiskDetails(riskKey) {
-                const data = riskProfileData[riskKey];
-                document.querySelectorAll('.risk-button').forEach(btn => btn.classList.remove('active'));
-                document.querySelector(`.risk-button[data-risk="${riskKey}"]`).classList.add('active');
+            // Risk Profiles Logic (Duplicated for the new section)
+            function setupRiskProfiles(containerId, detailsId) {
+                const riskButtonsContainer = document.getElementById(containerId);
+                const riskDetailsContainer = document.getElementById(detailsId);
                 
-                let priceHtml = data.price ? `<p class="text-3xl font-bold text-blue-600">$${data.price.toFixed(2)}</p><p class="text-xs text-gray-500">Precio por persona (Primera Vez)</p>` : `<p class="text-xl font-bold text-blue-600">Precio a Consultar</p>`;
+                function updateRiskDetails(riskKey) {
+                    const data = riskProfileData[riskKey];
+                    // Update active button within the specific section
+                    riskButtonsContainer.querySelectorAll('.risk-button').forEach(btn => btn.classList.remove('active'));
+                    riskButtonsContainer.querySelector(`.risk-button[data-risk="${riskKey}"]`).classList.add('active');
+                    
+                    let priceHtml = data.price ? `<p class="text-3xl font-bold text-blue-600">$${data.price.toFixed(2)}</p><p class="text-xs text-gray-500">Precio por persona (Primera Vez)</p>` : `<p class="text-xl font-bold text-blue-600">Precio a Consultar</p>`;
+                    
+                    riskDetailsContainer.innerHTML = `
+                        <h5 class="text-2xl font-bold mb-2" style="color: ${data.color};">${data.title}</h5>
+                        <p class="text-gray-600 mb-4 text-sm">${data.description}</p>
+                        <div class="mb-4">${priceHtml}</div>
+                        <h6 class="font-semibold mb-2">Componentes Clave de la Evaluación:</h6>
+                        <ul class="space-y-1 text-sm text-gray-700 list-disc list-inside">
+                            ${data.exams.map(exam => `<li>${exam}</li>`).join('')}
+                        </ul>
+                    `;
+                }
                 
-                riskDetailsContainer.innerHTML = `
-                    <h5 class="text-2xl font-bold mb-2" style="color: ${data.color};">${data.title}</h5>
-                    <p class="text-gray-600 mb-4 text-sm">${data.description}</p>
-                    <div class="mb-4">${priceHtml}</div>
-                    <h6 class="font-semibold mb-2">Componentes Clave de la Evaluación:</h6>
-                    <ul class="space-y-1 text-sm text-gray-700 list-disc list-inside">
-                        ${data.exams.map(exam => `<li>${exam}</li>`).join('')}
-                    </ul>
-                `;
+                Object.keys(riskProfileData).forEach(key => {
+                    const data = riskProfileData[key];
+                    const button = document.createElement('button');
+                    button.className = 'risk-button capitalize font-semibold py-2 px-5 rounded-full text-white shadow-md';
+                    button.textContent = key;
+                    button.style.backgroundColor = data.color;
+                    button.style.setProperty('--tw-shadow-color', data.color + '80');
+                    button.dataset.risk = key;
+                    button.addEventListener('click', () => updateRiskDetails(key));
+                    riskButtonsContainer.appendChild(button);
+                });
+                updateRiskDetails('verde');
             }
+
+            // Old section (now empty in HTML, so JS won't find it)
+            // setupRiskProfiles('risk-buttons-container', 'risk-details');
             
-            Object.keys(riskProfileData).forEach(key => {
-                const data = riskProfileData[key];
-                const button = document.createElement('button');
-                button.className = 'risk-button capitalize font-semibold py-2 px-5 rounded-full text-white shadow-md';
-                button.textContent = key;
-                button.style.backgroundColor = data.color;
-                button.style.setProperty('--tw-shadow-color', data.color + '80');
-                button.dataset.risk = key;
-                button.addEventListener('click', () => updateRiskDetails(key));
-                riskButtonsContainer.appendChild(button);
-            });
-            updateRiskDetails('verde');
+            // New section at the end
+            setupRiskProfiles('risk-buttons-container-2', 'risk-details-2');
+
 
             // Carousel Logic
             const carouselContainer = document.getElementById('clinic-carousel');
